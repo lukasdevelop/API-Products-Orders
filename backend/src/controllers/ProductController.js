@@ -3,7 +3,7 @@ const connection = require('../database/connection')
 module.exports = {
 
     async create(req, res) {
-        const { name, price } = req.body;
+        const {name, price} = req.body
 
         try {
             await connection('products')
@@ -20,8 +20,14 @@ module.exports = {
     },
 
     async store(req, res) {
+
+        const { page = 1 } = req.query; 
+
         try {
+
             const products = await connection('products')
+                .limit(5)
+                .offset((page - 1) * 5)
                 .select('*');
 
             return res.json({ products })
