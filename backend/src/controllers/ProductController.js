@@ -23,12 +23,16 @@ module.exports = {
 
         const { page = 1 } = req.query; 
 
+        const [count] = await connection('products').count()
+
         try {
 
             const products = await connection('products')
                 .limit(5)
                 .offset((page - 1) * 5)
                 .select('*');
+
+            res.header('X-Total-Count', count['count(*)'])
 
             return res.json({ products })
 
