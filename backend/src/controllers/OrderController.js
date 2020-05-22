@@ -1,53 +1,33 @@
 const connection = require('../database/connection')
 
 module.exports = {
-    async addProduct(req, res) {
-        const { products_id, orders_id, amount, } = req.body
-
-        const idOrder = await connection('orders')
-            .select('*')
-            .where('id', '=', orders_id)
-
-        if (idOrder.length <= 0) {
-
-            return res.status(404).send({ error: 'O pedido não existe.' })
-        }
-
-        try {
-
-            await connection('itens_order').insert({
-                products_id,
-                orders_id,
-                amount
-            })
-
-            return res.status(200).send({ success: 'Produto adicionado com sucesso.' })
-
-        } catch (error) {
-            return res.status(400).send({ error: 'Erro. Tente novamente.' })
-
-        }
-    },
-
+   
     async create(req, res) {
-        //deixar estatus no banco como default 0
-        const { client_id, status } = req.body
+        const { client_id } = req.body
 
-        try {
-            const order = await connection('orders')
-                .insert({
-                    client_id,
-                    status
-                })
+        const orderOpen = await connection('orders')
+            .select('*')
+            .where('client_id', '=', client_id)
+            .andWhere('status', '=', 0)
 
-            return res.status(200).send({ order });
+        if (orderOpen.length <= 0) {
 
-        } catch (error) {
+            try {
+                const order = await connection('orders')
+                    .insert({
+                        client_id                    
+                    })
 
-            return res.status(400).send({ error: 'Erro. Tente novamente.' })
+                return res.status(200).send({ order });
 
+            } catch (error) {
+
+                return res.status(500).send({ error: 'Erro. Tente novamente.' })
+
+            }
+        } else {
+            return res.status(400).send({ error: 'Já existe um pedido aberto para esse cliente.' })
         }
-
     },
 
     async show(req, res) {
@@ -59,22 +39,31 @@ module.exports = {
                 .select('*')
                 .where('id', '=', id)
 
-            return res.status(400).json(order)
+            return res.status(200).json(order)
 
         } catch (error) {
-            return res.status(400).send({ error: 'Erro. Tente novamente.' })
+            return res.status(500).send({ error: 'Erro. Tente novamente.' })
         }
     },
 
     async index(req, res) {
 
+        const { client_id } = req.body
+
         try {
             const orders = await connection('orders')
+                .join('itens_order', 'orders.id', '=', 'itens_order.orders_id')
                 .select('*')
+                .where('client_id', '=', client_id)
+
+            if(orders.length <= 0){
+                return res.status(400).send({error: "Esse cliente não tem nenhum pedido."})
+            }
 
             return res.status(200).json(orders)
+
         } catch (error) {
-            return res.status(400).send({ error: 'Erro. Tente novamente.' })
+            return res.status(500).send({ error: 'Erro. Tente novamente.' })
         }
     }
 }

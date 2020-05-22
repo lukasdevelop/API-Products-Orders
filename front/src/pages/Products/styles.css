@@ -1,0 +1,21 @@
+.products-container{
+    margin-top: 100px;
+}
+.products-container ul{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    list-style: none;
+    grid-gap: 24px;
+}
+
+.products-container ul li {
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.products-container img{
+    height: 50px;
+    width: 70px;
+}
