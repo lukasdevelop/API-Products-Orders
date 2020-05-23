@@ -5,11 +5,11 @@ module.exports = {
     async create(req, res) {
         const { products_id, orders_id, amount, } = req.body
 
-        const idOrder = await connection('orders')
+        const order = await connection('orders')
             .select('*')
             .where('id', '=', orders_id)
 
-        if (idOrder.length <= 0) {
+        if (order.length <= 0) {
 
             return res.status(404).send({ error: 'O pedido não existe.' })
         }

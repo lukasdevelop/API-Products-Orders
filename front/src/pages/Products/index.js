@@ -1,67 +1,40 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+
+import api from '../../services/api'
 
 import './styles.css'
 import image from '../../assets/imgs/no-image.png'
 
 export default function Products() {
+    const [products, setProducts] = useState([])
+
+    useEffect(() => {
+        api.get('products')
+            .then(response => {
+                setProducts(response.data.products)
+            })
+    }, [])
+
     return (
         <>
             <Container className="products-container">
-            <h1>Produtos</h1> 
+                <h1>Produtos</h1>
                 <Row>
                     <Col>
                         <ul>
-                            <li>
-                                <img src={image} alt="imagem" />
-                                <p>Celular</p>
-                                <p>R$ 100.00</p>
-                            </li>
-                            <li>
-                                <img src={image} alt="imagem" />
-                                <p>Celular</p>
-                                <p>R$ 100.00</p>
-                            </li>
-                            <li>
-                                <img src={image} alt="imagem" />
-                                <p>Celular</p>
-                                <p>R$ 100.00</p>
-                            </li>
-                            <li>
-                                <img src={image} alt="imagem" />
-                                <p>Celular</p>
-                                <p>R$ 100.00</p>
-                            </li>
-                            <li>
-                                <img src={image} alt="imagem" />
-                                <p>Celular</p>
-                                <p>R$ 100.00</p>
-                            </li>
-                            <li>
-                                <img src={image} alt="imagem" />
-                                <p>Celular</p>
-                                <p>R$ 100.00</p>
-                            </li>
-                            <li>
-                                <img src={image} alt="imagem" />
-                                <p>Celular</p>
-                                <p>R$ 100.00</p>
-                            </li>
-                            <li>
-                                <img src={image} alt="imagem" />
-                                <p>Celular</p>
-                                <p>R$ 100.00</p>
-                            </li>
-                            <li>
-                                <img src={image} alt="imagem" />
-                                <p>Celular</p>
-                                <p>R$ 100.00</p>
-                            </li>
+                            {products.map(product => (
+                                <li key={product.id}>
+                                    <img src={image} alt="imagem" />
+                                    <p>{product.name}</p>
+                                    <p>{product.price}</p>
+                                </li>
+                            ))}
                         </ul>
                     </Col>
-                    
+
                 </Row>
             </Container>
         </>

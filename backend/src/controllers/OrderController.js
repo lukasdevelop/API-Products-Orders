@@ -53,11 +53,12 @@ module.exports = {
         try {
             const orders = await connection('orders')
                 .join('itens_order', 'orders.id', '=', 'itens_order.orders_id')
+                .join('products', 'products.id', '=', 'itens_order.products_id')
                 .select('*')
                 .where('client_id', '=', client_id)
 
             if(orders.length <= 0){
-                return res.status(400).send({error: "Esse cliente não tem nenhum pedido."})
+                return res.status(400).send({error: "Nenhum produto adicionado."})
             }
 
             return res.status(200).json(orders)
