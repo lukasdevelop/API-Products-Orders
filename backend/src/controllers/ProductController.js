@@ -28,8 +28,8 @@ module.exports = {
         try {
 
             const products = await connection('products')
-                .limit(5)
-                .offset((page - 1) * 5)
+                .limit(4)
+                .offset((page - 1) * 4)
                 .select('*');
 
             res.header('X-Total-Count', count['count(*)'])

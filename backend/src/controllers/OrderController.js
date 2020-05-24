@@ -48,7 +48,7 @@ module.exports = {
 
     async index(req, res) {
 
-        const { client_id } = req.body
+        const client_id = req.headers.authorization
 
         try {
             const orders = await connection('orders')
