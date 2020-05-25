@@ -24,6 +24,7 @@ routes.get('/orders', OrderController.index)
 
 routes.post('/itens', ItensController.create)
 
+routes.delete('/itens/:id', OrderController.delete)
 
 
 

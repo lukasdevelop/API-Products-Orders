@@ -1,0 +1,22 @@
+#popover-contained {
+    width: 200px;
+    font-size: 13px;
+}
+
+#popover-contained ul li{
+    display: flex;
+    justify-content: space-between;
+list-style: none;
+line-height: 12px;
+}
+
+.total {
+    color: #00FF;
+    font-weight: bold;;
+}
+.btn-danger {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 20px !important;
+    height: 25px !important;
+}

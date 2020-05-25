@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import Overlay from 'react-bootstrap/Overlay'
 import Popover from 'react-bootstrap/Popover'
-import { FiShoppingCart } from 'react-icons/fi'
+import { FiShoppingCart, FiTrash2 } from 'react-icons/fi'
 import api from '../../services/api'
+
+import './styles.css'
 
 
 export default function Itens() {
@@ -15,6 +17,20 @@ export default function Itens() {
     setShow(!show);
     setTarget(event.target);
   };
+
+  const handleDeleteItem = async (e, id) =>{
+    e.preventDefault()
+ 
+
+  await api.delete(`itens/${id}`, {
+    headers: {
+      authorization: 1
+    }
+  })
+    
+  }
+
+  
 
   const [itens, setItens] = useState([])
 
@@ -37,9 +53,6 @@ export default function Itens() {
   const total = amountXprice.reduce((total, item) => total + item, 0)
 
 
-
-
-
   return (
     <div ref={ref}>
       <Button onClick={handleClick}>
@@ -49,7 +62,7 @@ export default function Itens() {
       <Overlay
         show={show}
         target={target}
-        placement="bottom"
+        placement="left"
         container={ref.current}
         containerPadding={20}
       >
@@ -59,13 +72,17 @@ export default function Itens() {
             <ul>
               {itens.map((item, index) => (
                 <li key={index}>
-                  {item.amount}x {item.name}
+                  <strong>{item.amount}x {item.name}</strong>
                   <p>{amountXprice[index]}</p>
+                  <Button onClick={(e) => handleDeleteItem(e, item.id)} class="button-trash" variant="danger">
+                    <FiTrash2 color="#fff" size={15}></FiTrash2>
+                  </Button>
+                  
                 </li>
                 
               ))}
-              <li>
-                Total: {total}
+              <li class="total">
+                Total: {total} 
               </li>
             </ul>
           </Popover.Content>
