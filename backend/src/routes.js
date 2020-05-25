@@ -10,6 +10,8 @@ routes.post('/products', ProductController.create)
 
 routes.get('/products', ProductController.store)
 
+routes.get('/products/:id', ProductController.show)
+
 routes.put('/products/:id', ProductController.update)
 
 routes.delete('/products/:id', ProductController.delete)
@@ -21,6 +23,7 @@ routes.get('/order/:id', OrderController.show)
 routes.get('/orders', OrderController.index)
 
 routes.post('/itens', ItensController.create)
+
 
 
 

@@ -26,7 +26,6 @@ module.exports = {
         const [count] = await connection('products').count()
 
         try {
-
             const products = await connection('products')
                 .limit(4)
                 .offset((page - 1) * 4)
@@ -37,7 +36,7 @@ module.exports = {
             return res.json({ products })
 
         } catch (error) {
-            return res.status(400).send({ error: "Falha na requisição, tente novamente." });
+            return res.status(500).send({ error: "Falha na requisição, tente novamente." });
         }
     },
 
@@ -68,7 +67,7 @@ module.exports = {
             }
         } catch (error) {
 
-            return res.status(400).send({ error: "Falha na requisição, tente novamente." });
+            return res.status(500).send({ error: "Falha na requisição, tente novamente." });
         }
 
     },
@@ -95,9 +94,26 @@ module.exports = {
             }
 
         } catch (error) {
-            return res.status(400).send({ error: "Falha na requisição, tente novamente." });
+            return res.status(500).send({ error: "Falha na requisição, tente novamente." });
 
         }
 
+    },
+
+    async show(req, res) {
+        const { id } = req.params
+
+        try {
+            const product = await connection('products')
+            .where('id', '=', id)
+            .select('*');
+            
+            return res.json(product)
+        } catch (error) {
+            return res.status(500).send({ error: "Falha na requisição, tente novamente." });
+
+        }
+
+        
     }
 }
