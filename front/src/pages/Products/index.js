@@ -26,15 +26,33 @@ export default function Products() {
             name: e.target.ProductName.value,
             price: e.target.ProductPrice.value,
         }
-        try {
-            const response = await api.put(`products/${e.target.ProductID.value}`, data)
 
-            alert(response)
+        try {
+            await api.put(`products/${e.target.ProductID.value}`, data)
+
+            alert("Produto alterado com sucesso.")
+
+            loadProducts()
+
+        } catch (error) {
+            alert(error)
+        }
+    }
+
+    const handleDelete = async (id) => {
+        let c = window.confirm('Certeza que deseja deletar ?');
+        if(c !== true)  return;
+
+        try {
+            await api.delete(`products/${id}`)
+            
+            loadProducts()
 
         } catch (error) {
             alert(error)
         }
 
+    
     }
 
 
@@ -47,7 +65,6 @@ export default function Products() {
 
         return (
             <>
-
                 <Button>
                     <FiEdit size={20} onClick={handleShow} ></FiEdit>
                 </Button>
@@ -127,8 +144,6 @@ export default function Products() {
         </div>
     );
 
-
-
     return (
         <>
             <Container className="products-container">
@@ -139,7 +154,7 @@ export default function Products() {
                             {products.map(product => (
                                 <li key={product.id}>
                                     <ProductModal id={product.id} name={product.name} price={product.price} />
-                                    <Button>
+                                    <Button onClick={() => handleDelete(product.id)}>
                                         <FiTrash2 size={20}></FiTrash2>
                                     </Button>
                                     <img src={image} alt="imagem" />
