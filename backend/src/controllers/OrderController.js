@@ -30,14 +30,16 @@ module.exports = {
         }
     },
 
-    async show(req, res) {
+    async showByClient(req, res) {
 
-        const { id } = req.params
+        const id = req.headers.authorization
 
         try {
             const order = await connection('orders')
                 .select('*')
-                .where('id', '=', id)
+                
+                .where('client_id', '=', id)
+                .andWhere('status', '=', 0)
 
             return res.status(200).json(order)
 
@@ -55,6 +57,7 @@ module.exports = {
                 .join('itens_order', 'orders.id', '=', 'itens_order.orders_id')
                 .join('products', 'products.id', '=', 'itens_order.products_id')
                 .select('*')
+                
                 .where('client_id', '=', client_id)
 
             if(orders.length <= 0){

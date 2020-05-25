@@ -19,7 +19,7 @@ export default function Products() {
     const [total, setTotal] = useState(0)
     const [page, setPage] = useState(1)
 
-    const  handleEdit = async e => {
+    const handleEdit = async e => {
         e.preventDefault();
 
         const data = {
@@ -41,23 +41,55 @@ export default function Products() {
 
     const handleDelete = async (id) => {
         let c = window.confirm('Certeza que deseja deletar ?');
-        if(c !== true)  return;
+        if (c !== true) return;
 
         try {
             await api.delete(`products/${id}`)
-            
+
             loadProducts()
 
         } catch (error) {
             alert(error)
         }
+    }
 
-    
+    const handleAddProduct = async e => {
+        e.preventDefault()
+
+        const products_id = e.target.ProductID.value
+        const amount = e.target.ProductAmount.value
+
+        try {
+
+            const order = await api.get('order', {
+                headers: {
+                    authorization: 1
+                }
+            })
+
+            const data = {
+                orders_id: order.data[0].id,
+                products_id,
+                amount
+            }
+
+            const result = await api.post('itens', data)
+            
+            alert(result.data.success)
+
+
+        } catch (error) {
+            alert(error)
+        }
+
+
+
+
     }
 
 
 
-    function ProductModal(props) {
+    const ProductModal = props => {
         const [show, setShow] = useState(false);
 
         const handleClose = () => setShow(false);
@@ -65,8 +97,8 @@ export default function Products() {
 
         return (
             <>
-                <Button>
-                    <FiEdit size={20} onClick={handleShow} ></FiEdit>
+                <Button onClick={handleShow} >
+                    <FiEdit size={20}></FiEdit>
                 </Button>
 
                 <Modal show={show} onHide={handleClose}>
@@ -76,8 +108,8 @@ export default function Products() {
                     <form onSubmit={(e) => handleEdit(e)}>
 
                         <Modal.Body>
-                        <Form.Group controlId="ProductID">
-                                <Form.Control  type="hidden"
+                            <Form.Group controlId="ProductID">
+                                <Form.Control type="hidden"
                                     defaultValue={props.id}
                                     name="ProductID"
                                 />
@@ -112,6 +144,71 @@ export default function Products() {
             </>
         );
     }
+
+    const ItemModal = props => {
+
+        const [show, setShow] = useState(false);
+
+        const handleClose = () => setShow(false);
+        const handleShow = () => setShow(true);
+
+        return (
+            <>
+                <Button onClick={handleShow}>
+                    <FiPlusSquare size={20}> </FiPlusSquare>
+                    Adicionar ao pedido
+                </Button>
+
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Produto {props.name} </Modal.Title>
+                    </Modal.Header>
+                    <form onSubmit={(e) => handleAddProduct(e)}>
+
+                        <Modal.Body>
+                            <Form.Group controlId="ProductID">
+                                <Form.Control type="hidden"
+                                    defaultValue={props.id}
+                                    name="ProductID"
+                                />
+                                <br />
+                            </Form.Group>
+                            <Form.Group controlId="ProductAmount">
+                                <Form.Label>Quantidade</Form.Label>
+                                <Form.Control as="select" custom>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </Form.Control>
+                            </Form.Group>
+                            <Form.Group controlId="ProductPrice">
+                                <Form.Label>Preço</Form.Label>
+                                <Form.Control disabled size="lg" type="text" placeholder="Preço do Produto"
+                                    defaultValue={props.price}
+                                    name="ProductPrice"
+                                />
+                            </Form.Group>
+
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Fechar
+                        </Button>
+                            <Button type="submit" variant="primary" onClick={handleClose}>
+                                Adicionar ao carrinho
+                        </Button>
+                        </Modal.Footer>
+                    </form>
+
+                </Modal>
+            </>
+        );
+
+    }
+
+
 
     async function loadProducts(number = 1) {
         const response = await api.get(`products?page=${number}`)
@@ -160,10 +257,7 @@ export default function Products() {
                                     <img src={image} alt="imagem" />
                                     <p>{product.name}</p>
                                     <p>{product.price}</p>
-                                    <Button>
-                                        <FiPlusSquare size={20}> </FiPlusSquare>
-                                        Adicionar ao pedido
-                                    </Button>
+                                    <ItemModal {...product} />
                                 </li>
                             ))}
                         </ul>

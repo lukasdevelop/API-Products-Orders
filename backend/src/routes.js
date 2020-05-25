@@ -18,7 +18,7 @@ routes.delete('/products/:id', ProductController.delete)
 
 routes.post('/orders', OrderController.create)
 
-routes.get('/order/:id', OrderController.show)
+routes.get('/order', OrderController.showByClient)
 
 routes.get('/orders', OrderController.index)
 

@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import Overlay from 'react-bootstrap/Overlay'
 import Popover from 'react-bootstrap/Popover'
@@ -7,7 +7,7 @@ import api from '../../services/api'
 
 
 export default function Itens() {
-const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
   const ref = useRef(null);
 
@@ -18,17 +18,27 @@ const [show, setShow] = useState(false);
 
   const [itens, setItens] = useState([])
 
-    useEffect(() => {
-        api.get('orders', {
-          headers: {
-            authorization: 1
-          }
-        })
-            .then(response => {
-              console.log(response.data)
-              setItens(response.data)
-            })
-    }, [])
+
+  useEffect(() => {
+    api.get('orders', {
+      headers: {
+        authorization: 1
+      }
+    })
+      .then(response => {
+
+        setItens(response.data)
+      })
+  }, [itens])
+
+
+  const amountXprice = itens.map(value => value.price * value.amount)
+
+  const total = amountXprice.reduce((total, item) => total + item, 0)
+
+
+
+
 
   return (
     <div ref={ref}>
@@ -47,9 +57,16 @@ const [show, setShow] = useState(false);
           <Popover.Title as="h3">Meus Produtos</Popover.Title>
           <Popover.Content>
             <ul>
-              {itens.map(item => (
-                <li key={item.id}>{item.name}</li>
+              {itens.map((item, index) => (
+                <li key={index}>
+                  {item.amount}x {item.name}
+                  <p>{amountXprice[index]}</p>
+                </li>
+                
               ))}
+              <li>
+                Total: {total}
+              </li>
             </ul>
           </Popover.Content>
         </Popover>
