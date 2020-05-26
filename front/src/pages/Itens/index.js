@@ -42,10 +42,6 @@ export default function Itens() {
    } catch (error) {
      alert(error)
    }
-
-
-    
-
   }
 
   const handleFinishOrder = async (e) => {
@@ -89,9 +85,6 @@ export default function Itens() {
     loadItens()
     
   }, [itens])
-
-
-
 
   const amountXprice = itens.map(value => value.price * value.amount)
 

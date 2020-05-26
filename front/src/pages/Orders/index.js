@@ -16,24 +16,47 @@ import Button from 'react-bootstrap/Button'
 export default function Orders() {
 
     const [orders, setOrders] = useState([])
+    const [total, setTotal] = useState(0)
+    const [page, setPage] = useState(1)
+
 
     async function loadOrders(number = 1) {
-        const response = await api.get(`orders/completed`,{
+        const response = await api.get(`orders/completed?page=${number}`,{
             headers: {
                 authorization: 1
             }
         })
 
+        setPage(number)
 
         setOrders(response.data)
+
+        console.log('jajaj', response.headers)
         
-        //setTotal(response.headers['x-total-count'])
+        setTotal(response.headers['x-total-count'])
 
     }
 
     useEffect(() => {
         loadOrders()
-    }, [])
+    }, [total])
+
+    let active = page;
+    let items = [];
+    for (let number = 1; number <= Math.ceil(total / 4); number++) {
+        items.push(
+            <Pagination.Item key={number} active={number === active} onClick={() => loadOrders(number)}>
+                {number}
+            </Pagination.Item>
+        );
+    }
+
+    const paginationBasic = (
+        <div>
+            <Pagination>{items}</Pagination>
+            <br />
+        </div>
+    );
 
     return (
         <>
@@ -71,7 +94,9 @@ export default function Orders() {
                     </Col>
                 </Row>
             </Container>
-
+            <Container>
+                {paginationBasic}
+            </Container>
 
         </>
     )

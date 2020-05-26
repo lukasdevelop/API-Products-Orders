@@ -47,15 +47,25 @@ module.exports = {
 
     async ordersComplete(req, res) {
 
+        const { page = 1 } = req.query; 
+
         const client_id = req.headers.authorization
+
+        const [count] = await connection('orders').count()
+
 
         try {
             const orders = await connection('orders')
+                .limit(4)
+                .offset((page - 1) * 4)
                 .join('itens_order', 'orders.id', '=', 'itens_order.orders_id')
                 .join('products', 'products.id', '=', 'itens_order.products_id')
                 .select('itens_order.id', 'itens_order.amount', 'orders.status', 'orders.client_id', 'orders.id as orders_id', 'products.name', 'products.price', 'products.id as products_id')
                 .where('client_id', '=', client_id)
                 .andWhere('orders.status', '=', 1)
+
+            res.header('X-Total-Count', count['count(*)'])
+
 
             if (orders.length <= 0) {
                 return res.status(400).send({ error: "Nenhum produto adicionado." })
