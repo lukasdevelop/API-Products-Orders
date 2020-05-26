@@ -33,13 +33,15 @@
 
 1 - Login com JWT (token) esta fixo o ID de cliente 1, sendo passado nos Headers das requisições
 
-2 - Tabela de Estoque. Não estou deduzindo se há ou não quantidade de produtos para cadastro
+2 - Variaveis de ambiente, PORT, URLBASE, etc
 
-3 - Validaçoe dos campos de Edicao e Exclusao dos produtos
+3 - Tabela de Estoque. Não estou deduzindo se há ou não quantidade de produtos para cadastro
 
-4 - Insira o preço do produto no seguinte formato, Ex: 10.00. Não tive tempo de validar, usar mascaras etc
+4 - Validaçoe dos campos de Edicao e Exclusao dos produtos
 
-5 - Um layout decente e revisar a responsividade 
+5 - Insira o preço do produto no seguinte formato, Ex: 10.00. Não tive tempo de validar, usar mascaras etc
+
+6 - Um layout decente e revisar a responsividade 
 
 
 
