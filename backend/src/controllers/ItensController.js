@@ -8,7 +8,6 @@ module.exports = {
 
         let orders_id = null
 
-
         try {
             orders_id = await connection('orders')
                 .select('*')
@@ -49,5 +48,33 @@ module.exports = {
             return res.status(500).send({ error })
 
         }
+    },
+
+
+    async delete(req, res) {
+
+        const { id } = req.params;
+
+        const order = await connection('itens_order')
+            .select('*')
+            .where('id', '=', id)
+
+        if (order.length <= 0) {
+            return res.status(400).send({ error: 'Item não encontrado no pedido.' })
+        }
+
+        try {
+
+            await connection('itens_order')
+                .where('id', '=', id)
+                .del()
+
+            return res.status(200).send({ success: 'Item deletado com sucesso.' })
+
+        } catch (error) {
+
+            return res.status(500).send({ error})
+        }
+
     },
 }

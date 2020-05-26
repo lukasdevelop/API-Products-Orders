@@ -50,7 +50,7 @@ export default function Register() {
                                         onChange={e => setName(e.target.value)}
                                     />
                                     <br />
-                                    <Form.Control size="lg" type="text" placeholder="Preço do Produto"
+                                    <Form.Control size="lg" type="text" placeholder="Preço do Produto  Ex: 10.00"
                                         value={price}
                                         onChange={e => setPrice(e.target.value)}
                                     />

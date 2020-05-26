@@ -24,9 +24,11 @@ routes.get('/orders/completed', OrderController.ordersComplete)
 
 routes.put('/order/complete/:id', OrderController.updateStatusOrder)
 
+routes.delete('/order/:id', OrderController.delete)
+
 routes.post('/itens', ItensController.create)
 
-routes.delete('/itens/:id', OrderController.delete)
+routes.delete('/itens/:id', ItensController.delete)
 
 
 

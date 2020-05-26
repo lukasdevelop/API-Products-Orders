@@ -5,7 +5,6 @@ import Col from 'react-bootstrap/Col'
 import Pagination from 'react-bootstrap/Pagination'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
-import { useHistory } from 'react-router-dom'
 
 import api from '../../services/api'
 import { FiEdit, FiTrash2, FiPlusSquare } from 'react-icons/fi'
@@ -19,9 +18,6 @@ export default function Products() {
     const [products, setProducts] = useState([])
     const [total, setTotal] = useState(0)
     const [page, setPage] = useState(1)
-
-    const history = useHistory()
-
 
 
     const handleEdit = async e => {
@@ -123,7 +119,7 @@ export default function Products() {
                                 <br />
                             </Form.Group>
                             <Form.Group controlId="ProductPrice">
-                                <Form.Control size="lg" type="text" placeholder="Preço do Produto"
+                                <Form.Control size="lg" type="text" placeholder="Preço do Produto  Ex: 10.00"
                                     defaultValue={props.price}
                                     name="ProductPrice"
                                 />
@@ -185,7 +181,7 @@ export default function Products() {
                             </Form.Group>
                             <Form.Group controlId="ProductPrice">
                                 <Form.Label>Preço</Form.Label>
-                                <Form.Control disabled size="lg" type="text" placeholder="Preço do Produto"
+                                <Form.Control disabled size="lg" type="text" placeholder="Preço do Produto  Ex: 10.00"
                                     defaultValue={props.price}
                                     name="ProductPrice"
                                 />
@@ -247,16 +243,18 @@ export default function Products() {
                     <Col>
                         <ul>
                             {products.map(product => (
-                                <li key={product.id}>
-                                    <ProductModal id={product.id} name={product.name} price={product.price} />
-                                    <Button onClick={() => handleDelete(product.id)}>
-                                        <FiTrash2 size={20}></FiTrash2>
-                                    </Button>
-                                    <img src={image} alt="imagem" />
-                                    <p>{product.name}</p>
-                                    <p>{product.price}</p>
-                                    <ItemModal {...product} />
-                                </li>
+                                    <li key={product.id}>
+                                        <div className="product-item">
+                                            <img src={image} alt="imagem" />
+                                            <ProductModal id={product.id} name={product.name} price={product.price} />
+                                            <Button variant="danger" onClick={() => handleDelete(product.id)}>
+                                                <FiTrash2 size={20}></FiTrash2>
+                                            </Button>
+                                        </div>
+                                        <p className="product-name">{product.name}</p>
+                                        <p className="product-price">{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(product.price)}</p>
+                                        <ItemModal {...product} />
+                                    </li>
                             ))}
                         </ul>
                     </Col>

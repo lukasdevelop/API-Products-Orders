@@ -111,19 +111,21 @@ export default function Itens() {
               {itens.map((item, index) => (
                 <li key={index}>
                   <strong>{item.amount}x {item.name}</strong>
-                  <p>{amountXprice[index]}</p>
-                  <Button onClick={(e) => handleDeleteItem(e, item.id)} class="button-trash" variant="danger">
+                  <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(amountXprice[index])}</p>
+
+                  <Button onClick={(e) => handleDeleteItem(e, item.id)} className="button-trash" variant="danger">
                     <FiTrash2 color="#fff" size={15}></FiTrash2>
                   </Button>
 
                 </li>
               ))}
-              <li class="total">
-                Total: {total}
+              <li className="total">
+                Total: {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL'}).format(total)}
+
               </li>
 
             </ul>
-            <Button disabled={enableButton()}  class="btn-sucess" onClick={(e) => handleFinishOrder(e)} variant="success">
+            <Button disabled={enableButton()}  className="btn-sucess" onClick={(e) => handleFinishOrder(e)} variant="success">
               <FiCheck color="#fff" size={15}></FiCheck> Finalizar
             </Button>
           </Popover.Content>
