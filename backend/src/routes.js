@@ -16,11 +16,13 @@ routes.put('/products/:id', ProductController.update)
 
 routes.delete('/products/:id', ProductController.delete)
 
-routes.post('/orders', OrderController.create)
-
 routes.get('/order', OrderController.showByClient)
 
 routes.get('/orders', OrderController.index)
+
+routes.get('/orders/completed', OrderController.ordersComplete)
+
+routes.put('/order/complete/:id', OrderController.updateStatusOrder)
 
 routes.post('/itens', ItensController.create)
 

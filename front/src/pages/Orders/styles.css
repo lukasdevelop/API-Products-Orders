@@ -1,0 +1,41 @@
+.orders-container{
+    margin-top: 100px;
+}
+.orders-container ul{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    list-style: none;
+    grid-gap: 24px;
+}
+
+.orders-container ul li {
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.orders-itens {
+    display: flex;
+    justify-content: space-between;
+}
+
+.orders-header-item{
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 20px;
+    color: gray;
+}
+
+.orders-header-item .btn-danger {
+    width: 25px;
+    height: 29px;
+    padding: 0;
+    margin-bottom:10px;
+}
+
+.orders-container .status {
+   font-weight: bold;
+   color: green
+}

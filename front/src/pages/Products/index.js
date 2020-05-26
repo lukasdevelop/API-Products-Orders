@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Pagination from 'react-bootstrap/Pagination'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
+import { useHistory } from 'react-router-dom'
 
 import api from '../../services/api'
 import { FiEdit, FiTrash2, FiPlusSquare } from 'react-icons/fi'
@@ -18,6 +19,10 @@ export default function Products() {
     const [products, setProducts] = useState([])
     const [total, setTotal] = useState(0)
     const [page, setPage] = useState(1)
+
+    const history = useHistory()
+
+
 
     const handleEdit = async e => {
         e.preventDefault();
@@ -54,27 +59,24 @@ export default function Products() {
     }
 
     const handleAddProduct = async e => {
-        e.preventDefault()
+        //e.preventDefault()
 
         const products_id = e.target.ProductID.value
         const amount = e.target.ProductAmount.value
 
         try {
 
-            const order = await api.get('order', {
+            const data = {
+                products_id,
+                amount
+            }
+
+            const result = await api.post('itens', data, {
                 headers: {
                     authorization: 1
                 }
             })
 
-            const data = {
-                orders_id: order.data[0].id,
-                products_id,
-                amount
-            }
-
-            const result = await api.post('itens', data)
-            
             alert(result.data.success)
 
 
@@ -86,8 +88,6 @@ export default function Products() {
 
 
     }
-
-
 
     const ProductModal = props => {
         const [show, setShow] = useState(false);
@@ -207,8 +207,6 @@ export default function Products() {
         );
 
     }
-
-
 
     async function loadProducts(number = 1) {
         const response = await api.get(`products?page=${number}`)

@@ -32,8 +32,7 @@ export default function Header() {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">Listar</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">Cadastrar</Dropdown.Item>
+                        <Dropdown.Item href="/orders">Listar</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
                 <Itens />

@@ -12,11 +12,21 @@ line-height: 12px;
 
 .total {
     color: #00FF;
-    font-weight: bold;;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
-.btn-danger {
+#popover-contained  .btn-danger {
     padding: 0 !important;
     margin: 0 !important;
     width: 20px !important;
     height: 25px !important;
+}
+#popover-contained .btn-success {
+   
+    width: 100% !important;
+
+}
+
+.popover-header {
+    color: blue !important;
 }
