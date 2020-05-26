@@ -3,6 +3,7 @@
 
 # Requesitos
 1 - Ter o Docker instalado
+
 2 - No diretorio raiz acompanha um arquivo JSON do Insomnia para importa com as rotas da API
 
 # No diretorio raiz
