@@ -41,6 +41,8 @@ export default function Orders() {
         try {
             await api.delete(`order/${id}`)
 
+            alert(id)
+
             loadOrders()
 
         } catch (error) {
@@ -85,11 +87,11 @@ export default function Orders() {
                                         </Button>
                                         </p>
                                     </div>
-                                    {item.items.map((i) => (
-                                        <p className="orders-itens">
+                                    {item.items.map((i, idx) => (
+                                        <p key={idx} className="orders-itens">
                                             <strong>{i.amount}x {i.name}</strong>
 
-                                            <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(i.price)}</p>
+                                        {Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(i.price)}
                                         </p>
 
                                     ))}

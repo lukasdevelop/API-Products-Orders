@@ -52,6 +52,7 @@ module.exports = {
             const orders = await connection('orders')
             .select('*')
             .where('id', '=', id)
+            .del()
 
             return res.status(200).send({ success: 'Pedido deletado com sucesso.' })
 

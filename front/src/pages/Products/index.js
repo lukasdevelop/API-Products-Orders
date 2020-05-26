@@ -239,6 +239,7 @@ export default function Products() {
         <>
             <Container className="products-container">
                 <h1>Produtos</h1>
+                <h6>{total} produtos cadastrados</h6>
                 <Row>
                     <Col>
                         <ul>
