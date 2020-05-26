@@ -38,10 +38,11 @@ export default function Orders() {
     const handleDelete = async (e, id) => {
         e.preventDefault()
 
+        let c = window.confirm('Certeza que deseja deletar ?');
+        if (c !== true) return;
+
         try {
             await api.delete(`order/${id}`)
-
-            alert(id)
 
             loadOrders()
 
